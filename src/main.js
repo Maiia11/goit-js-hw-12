@@ -79,6 +79,7 @@ async function handleSubmit(event) {
 }
 
 
+
  function createMarkup(arr) {
     return arr.map(({ id, webformatURL, largeImageURL, tags, likes, views, comments, downloads }) =>
         `<li data-id="${id}" class="gallery-item">
@@ -109,16 +110,25 @@ const lightbox = new SimpleLightbox('.list a', {
 async function loadMore() {
      loader.style.display = 'inline-flex';
     page += 1;
+
+    const card = document.querySelector(".gallery-item");
+    const cardHeight = card.getBoundingClientRect().height;
     
     try {
         
         const data = await requestServer(input);
 
-        console.log(data.totalHits);
 
         list.insertAdjacentHTML("beforeend", createMarkup(data.hits));
         lightbox.refresh();
         loader.style.display = 'none';
+
+        
+        window.scrollBy({
+            top: cardHeight * 2,
+            left: 0,
+            behavior: "smooth",
+        });
         
         const lastPage = Math.ceil(data.totalHits / 15);
         
