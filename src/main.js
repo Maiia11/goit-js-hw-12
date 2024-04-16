@@ -10,7 +10,7 @@ const form = document.querySelector(".picture-form");
 form.addEventListener("submit", handleSubmit);
 
 const loader = document.querySelector(".loader")
-loader.style.display = 'none';
+ loader.style.display = 'none';
 
 const list = document.querySelector(".list");
 
@@ -44,11 +44,11 @@ async function requestServer(value) {
 async function handleSubmit(event) {
     event.preventDefault();
     input = event.target.elements.choose.value;
-    loader.style.display = 'inline-flex';
     list.innerHTML = "";
+    
     try {
         const data = await requestServer(input)
-        loader.style.display = 'none';
+        
         if (data.hits.length === 0) {
             list.innerHTML = "";
             iziToast.info({
@@ -67,7 +67,9 @@ async function handleSubmit(event) {
 
         if (page < data.totalHits) {
              loadBtn.classList.replace("load_more_hidden", "load_more");
-         }
+        }
+        
+       
             
     } catch (error) {
         console.log(error);
@@ -105,11 +107,13 @@ const lightbox = new SimpleLightbox('.list a', {
  });
 
 async function loadMore() {
+     loader.style.display = 'inline-flex';
     page += 1;
-    
     try {
+        
         const data = await requestServer(input);
-        list.insertAdjacentHTML("beforeend", createMarkup(data.hits))
+        list.insertAdjacentHTML("beforeend", createMarkup(data.hits));
+        loader.style.display = 'none';
 
         // if () {
         //     loadBtn.classList.replace("load_more", "load_more_hidden")
