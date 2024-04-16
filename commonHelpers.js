@@ -1,17 +1,17 @@
-import{i as f,S as p,a as d}from"./assets/vendor-09d7c26e.js";(function(){const r=document.createElement("link").relList;if(r&&r.supports&&r.supports("modulepreload"))return;for(const e of document.querySelectorAll('link[rel="modulepreload"]'))a(e);new MutationObserver(e=>{for(const t of e)if(t.type==="childList")for(const i of t.addedNodes)i.tagName==="LINK"&&i.rel==="modulepreload"&&a(i)}).observe(document,{childList:!0,subtree:!0});function o(e){const t={};return e.integrity&&(t.integrity=e.integrity),e.referrerPolicy&&(t.referrerPolicy=e.referrerPolicy),e.crossOrigin==="use-credentials"?t.credentials="include":e.crossOrigin==="anonymous"?t.credentials="omit":t.credentials="same-origin",t}function a(e){if(e.ep)return;e.ep=!0;const t=o(e);fetch(e.href,t)}})();const m=document.querySelector(".picture-form");m.addEventListener("submit",h);const n=document.querySelector(".loader");n.style.display="none";const l=document.querySelector(".list"),y="43226276-a07a0c17e428cfffb021b9b05";async function g(s){const{data:r}=await d("https://pixabay.com/api/",{params:{key:y,q:s,image_type:"photo",orientation:"horizontal",safesearch:!0}});return console.log(r),r}jj;async function h(s){s.preventDefault();const r=s.target.elements.choose.value;n.style.display="inline-flex";try{const o=await g(r);if(n.style.display="none",o.hits.length===0){l.innerHTML="",f.info({message:"Sorry, there are no images matching your search query. Please try again!",backgroundColor:"#ef4040",messageColor:"#fafafb",timeout:2e3,position:"topRight"});return}l.innerHTML=b(o.hits),L.refresh()}catch(o){console.log(o)}}function b(s){return s.map(({id:r,webformatURL:o,largeImageURL:a,tags:e,likes:t,views:i,comments:c,downloads:u})=>`<li data-id="${r}" class="gallery-item">
-    <a class="gallery-link" href="${a}">
+import{i as h,S as b,a as L}from"./assets/vendor-09d7c26e.js";(function(){const t=document.createElement("link").relList;if(t&&t.supports&&t.supports("modulepreload"))return;for(const e of document.querySelectorAll('link[rel="modulepreload"]'))s(e);new MutationObserver(e=>{for(const o of e)if(o.type==="childList")for(const a of o.addedNodes)a.tagName==="LINK"&&a.rel==="modulepreload"&&s(a)}).observe(document,{childList:!0,subtree:!0});function i(e){const o={};return e.integrity&&(o.integrity=e.integrity),e.referrerPolicy&&(o.referrerPolicy=e.referrerPolicy),e.crossOrigin==="use-credentials"?o.credentials="include":e.crossOrigin==="anonymous"?o.credentials="omit":o.credentials="same-origin",o}function s(e){if(e.ep)return;e.ep=!0;const o=i(e);fetch(e.href,o)}})();const d=document.querySelector(".picture-form");d.addEventListener("submit",$);const n=document.querySelector(".loader");n.style.display="none";const l=document.querySelector(".list"),f=document.querySelector(".js_load_more");f.addEventListener("click",w);let u=1,c;const S="43226276-a07a0c17e428cfffb021b9b05";async function p(r){const{data:t}=await L("https://pixabay.com/api/",{params:{key:S,q:r,image_type:"photo",orientation:"horizontal",safesearch:!0,page:u,per_page:15}});return console.log(t),t}async function $(r){r.preventDefault(),c=r.target.elements.choose.value,n.style.display="inline-flex";try{const t=await p(c);if(n.style.display="none",t.hits.length===0){l.innerHTML="",h.info({message:"Sorry, there are no images matching your search query. Please try again!",backgroundColor:"#ef4040",messageColor:"#fafafb",timeout:2e3,position:"topRight"});return}console.log(t.hits),l.insertAdjacentHTML("beforeend",m(t.hits)),q.refresh(),console.log(t.totalHits),u<t.totalHits&&f.classList.replace("load_more_hidden","load_more")}catch(t){console.log(t)}finally{d.reset()}}function m(r){return r.map(({id:t,webformatURL:i,largeImageURL:s,tags:e,likes:o,views:a,comments:y,downloads:g})=>`<li data-id="${t}" class="gallery-item">
+    <a class="gallery-link" href="${s}">
     <img
       class="gallery-image"
-      src="${o}"
-      data-source="${a}"
+      src="${i}"
+      data-source="${s}"
       alt="${e}"
       />
     <ul class="info-card">
-    <li class="info-label" ><span>Likes</span><br>${t}</li>
-    <li class="info-label"><span>Views</span><br>${i}</li>
-    <li class="info-label"><span>Comments</span><br>${c}</li>
-    <li class="info-label"><span>Downloads</span><br>${u}</li>
+    <li class="info-label" ><span>Likes</span><br>${o}</li>
+    <li class="info-label"><span>Views</span><br>${a}</li>
+    <li class="info-label"><span>Comments</span><br>${y}</li>
+    <li class="info-label"><span>Downloads</span><br>${g}</li>
     </ul>
     </a>
-</li>`).join("")}const L=new p(".list a",{captionsData:"alt",captionDelay:250});
+</li>`).join("")}const q=new b(".list a",{captionsData:"alt",captionDelay:250});async function w(){u+=1;try{const r=await p(c);l.insertAdjacentHTML("beforeend",m(r.hits))}catch(r){alert(r.message)}}
 //# sourceMappingURL=commonHelpers.js.map
