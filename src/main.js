@@ -14,8 +14,6 @@ loader.style.display = 'none';
 
 const list = document.querySelector(".list");
 
-
-
 const loadBtn = document.querySelector(".js_load_more");
 
  loadBtn.addEventListener("click", loadMore);
@@ -38,7 +36,6 @@ async function requestServer(value) {
             
         }
     })
-    console.log(data);
     return data;
 }
 
@@ -48,6 +45,7 @@ async function handleSubmit(event) {
     event.preventDefault();
     input = event.target.elements.choose.value;
     loader.style.display = 'inline-flex';
+    list.innerHTML = "";
     try {
         const data = await requestServer(input)
         loader.style.display = 'none';
@@ -63,10 +61,9 @@ async function handleSubmit(event) {
             return
         }
 
-        console.log(data.hits);
         list.insertAdjacentHTML("beforeend", createMarkup(data.hits)) 
         lightbox.refresh()
-        console.log(data.totalHits);
+        
 
         if (page < data.totalHits) {
              loadBtn.classList.replace("load_more_hidden", "load_more");
@@ -113,6 +110,10 @@ async function loadMore() {
     try {
         const data = await requestServer(input);
         list.insertAdjacentHTML("beforeend", createMarkup(data.hits))
+
+        // if () {
+        //     loadBtn.classList.replace("load_more", "load_more_hidden")
+        // }
 
 
     } catch (error) {
