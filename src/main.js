@@ -26,12 +26,13 @@ let input;
 
 async function handleSubmit(event) {
     event.preventDefault();
+    loadBtn.classList.replace("load_more", "load_more_hidden");
     input = event.target.elements.choose.value;
     list.innerHTML = "";
     page = 1;
     try {
         const data = await requestServer(input, page)
-        
+          
         if (data.hits.length === 0) {
             list.innerHTML = "";
             iziToast.info({
@@ -44,11 +45,18 @@ async function handleSubmit(event) {
             return
         }
 
+       
+
         list.insertAdjacentHTML("beforeend", createMarkup(data.hits)) 
         lightbox.refresh()
         
         if (page < data.totalHits) {
              loadBtn.classList.replace("load_more_hidden", "load_more");
+        }
+
+        if (data.hits.length === 0) {
+            loadBtn.classList.replace("load_more", "load_more_hidden");
+            
         }
                 
     } catch (error) {
@@ -88,7 +96,7 @@ async function loadMore() {
         const lastPage = Math.ceil(data.totalHits / 15);
         
         if (page >= lastPage) {
-            loadBtn.classList.replace("load_more", "load_more_hidden")
+            loadBtn.classList.replace("load_more", "load_more_hidden");
             iziToast.info({
                 message: "We're sorry, but you've reached the end of search results.",
                 backgroundColor: '#09f;',
