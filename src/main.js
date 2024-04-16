@@ -6,6 +6,9 @@ import "izitoast/dist/css/iziToast.min.css";
 import SimpleLightbox from "simplelightbox";
 import "simplelightbox/dist/simple-lightbox.min.css";
 
+import { createMarkup } from "./js/render-functions";
+import { requestServer } from "./js/pixabay-api";
+
 const form = document.querySelector(".picture-form");
 form.addEventListener("submit", handleSubmit);
 
@@ -18,36 +21,17 @@ const loadBtn = document.querySelector(".js_load_more");
 
  loadBtn.addEventListener("click", loadMore);
 
-let page = 33;
+let page = 1;
 let input;
-
-
-const apiKey = "43226276-a07a0c17e428cfffb021b9b05";
-async function requestServer(value) {
-    const { data } = await axios("https://pixabay.com/api/", {
-        params: {
-            key: apiKey,
-            q: value,
-            image_type: "photo",
-            orientation: "horizontal",
-            safesearch: true,
-            page: page,
-            per_page: 15
-            
-        }
-    })
-    return data;
-}
-
 
 
 async function handleSubmit(event) {
     event.preventDefault();
     input = event.target.elements.choose.value;
     list.innerHTML = "";
-    
+    page = 1;
     try {
-        const data = await requestServer(input)
+        const data = await requestServer(input, page)
         
         if (data.hits.length === 0) {
             list.innerHTML = "";
@@ -80,27 +64,6 @@ async function handleSubmit(event) {
 
 
 
- function createMarkup(arr) {
-    return arr.map(({ id, webformatURL, largeImageURL, tags, likes, views, comments, downloads }) =>
-        `<li data-id="${id}" class="gallery-item">
-    <a class="gallery-link" href="${largeImageURL}">
-    <img
-      class="gallery-image"
-      src="${webformatURL}"
-      data-source="${largeImageURL}"
-      alt="${tags}"
-      />
-    <ul class="info-card">
-    <li class="info-label" ><span>Likes</span><br>${likes}</li>
-    <li class="info-label"><span>Views</span><br>${views}</li>
-    <li class="info-label"><span>Comments</span><br>${comments}</li>
-    <li class="info-label"><span>Downloads</span><br>${downloads}</li>
-    </ul>
-    </a>
-</li>`)
-        .join("");
-    
-}
 
 const lightbox = new SimpleLightbox('.list a', { 
     captionsData: "alt",
@@ -116,7 +79,7 @@ async function loadMore() {
     
     try {
         
-        const data = await requestServer(input);
+        const data = await requestServer(input, page);
 
 
         list.insertAdjacentHTML("beforeend", createMarkup(data.hits));
