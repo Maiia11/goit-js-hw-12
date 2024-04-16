@@ -45,18 +45,11 @@ async function handleSubmit(event) {
             return
         }
 
-       
-
         list.insertAdjacentHTML("beforeend", createMarkup(data.hits)) 
         lightbox.refresh()
         
         if (page < data.totalHits) {
              loadBtn.classList.replace("load_more_hidden", "load_more");
-        }
-
-        if (data.hits.length === 0) {
-            loadBtn.classList.replace("load_more", "load_more_hidden");
-            
         }
                 
     } catch (error) {
