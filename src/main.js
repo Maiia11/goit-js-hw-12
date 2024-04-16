@@ -16,10 +16,9 @@ const loader = document.querySelector(".loader")
  loader.style.display = 'none';
 
 const list = document.querySelector(".list");
-
 const loadBtn = document.querySelector(".js_load_more");
 
- loadBtn.addEventListener("click", loadMore);
+loadBtn.addEventListener("click", loadMore);
 
 let page = 1;
 let input;
@@ -48,13 +47,10 @@ async function handleSubmit(event) {
         list.insertAdjacentHTML("beforeend", createMarkup(data.hits)) 
         lightbox.refresh()
         
-
         if (page < data.totalHits) {
              loadBtn.classList.replace("load_more_hidden", "load_more");
         }
-        
-       
-            
+                
     } catch (error) {
         console.log(error);
     } finally {
@@ -63,12 +59,11 @@ async function handleSubmit(event) {
 }
 
 
-
-
 const lightbox = new SimpleLightbox('.list a', { 
     captionsData: "alt",
     captionDelay: 250,
  });
+
 
 async function loadMore() {
      loader.style.display = 'inline-flex';
@@ -78,15 +73,12 @@ async function loadMore() {
     const cardHeight = card.getBoundingClientRect().height;
     
     try {
-        
         const data = await requestServer(input, page);
-
 
         list.insertAdjacentHTML("beforeend", createMarkup(data.hits));
         lightbox.refresh();
         loader.style.display = 'none';
 
-        
         window.scrollBy({
             top: cardHeight * 2,
             left: 0,
@@ -99,13 +91,12 @@ async function loadMore() {
             loadBtn.classList.replace("load_more", "load_more_hidden")
             iziToast.info({
                 message: "We're sorry, but you've reached the end of search results.",
-                backgroundColor: '#ef4040',
-                messageColor: '#fafafb',
+                backgroundColor: '#09f;',
+                messageColor: '#2e2f42',
                 timeout: 2000,
                 position: "topRight"
             })
         }
-
 
     } catch (error) {
         alert(error.message)
