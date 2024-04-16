@@ -18,7 +18,7 @@ const loadBtn = document.querySelector(".js_load_more");
 
  loadBtn.addEventListener("click", loadMore);
 
-let page = 1;
+let page = 33;
 let input;
 
 
@@ -109,15 +109,29 @@ const lightbox = new SimpleLightbox('.list a', {
 async function loadMore() {
      loader.style.display = 'inline-flex';
     page += 1;
+    
     try {
         
         const data = await requestServer(input);
-        list.insertAdjacentHTML("beforeend", createMarkup(data.hits));
-        loader.style.display = 'none';
 
-        // if () {
-        //     loadBtn.classList.replace("load_more", "load_more_hidden")
-        // }
+        console.log(data.totalHits);
+
+        list.insertAdjacentHTML("beforeend", createMarkup(data.hits));
+        lightbox.refresh();
+        loader.style.display = 'none';
+        
+        const lastPage = Math.ceil(data.totalHits / 15);
+        
+        if (page >= lastPage) {
+            loadBtn.classList.replace("load_more", "load_more_hidden")
+            iziToast.info({
+                message: "We're sorry, but you've reached the end of search results.",
+                backgroundColor: '#ef4040',
+                messageColor: '#fafafb',
+                timeout: 2000,
+                position: "topRight"
+            })
+        }
 
 
     } catch (error) {
