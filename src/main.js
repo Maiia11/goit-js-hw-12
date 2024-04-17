@@ -51,6 +51,17 @@ async function handleSubmit(event) {
         if (page < data.totalHits) {
              loadBtn.classList.replace("load_more_hidden", "load_more");
         }
+
+        if (data.totalHits < 15) {
+             loadBtn.classList.replace("load_more", "load_more_hidden");
+            iziToast.info({
+                message: "We're sorry, but you've reached the end of search results.",
+                backgroundColor: '#09f;',
+                messageColor: '#2e2f42',
+                timeout: 2000,
+                position: "topRight"
+            })
+        }
                 
     } catch (error) {
         console.log(error);
@@ -88,7 +99,7 @@ async function loadMore() {
         
         const lastPage = Math.ceil(data.totalHits / 15);
         
-        if (page >= lastPage) {
+        if (page >= lastPage ) {
             loadBtn.classList.replace("load_more", "load_more_hidden");
             iziToast.info({
                 message: "We're sorry, but you've reached the end of search results.",
